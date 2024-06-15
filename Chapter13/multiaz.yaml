@@ -169,21 +169,23 @@ Resources:
           'Fn::Base64': !Sub |
             #!/bin/bash -ex
             trap '/opt/aws/bin/cfn-signal -e 1 --stack ${AWS::StackName} --resource AutoScalingGroup --region ${AWS::Region}' ERR
-
+            
             # Installing Jenkins
             amazon-linux-extras enable epel=7.11 && yum -y clean metadata
             yum install -y epel-release && yum -y clean metadata
+            wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+            rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
             yum install -y java-11-amazon-corretto-headless daemonize
-            wget -q -T 60 http://ftp-chi.osuosl.org/pub/jenkins/redhat-stable/jenkins-2.375.1-1.1.noarch.rpm
-            rpm --install jenkins-2.375.1-1.1.noarch.rpm
+            yum install -y fontconfig
+            yum install -y jenkins
 
             # Configuring Jenkins
-            sed -i -e 's/JENKINS_ARGS=""/JENKINS_ARGS="--argumentsRealm.passwd.admin=${JenkinsAdminPassword} --argumentsRealm.roles.admin=admin"/g' /etc/sysconfig/jenkins
+            sed -i -e 's/#Environment="JENKINS_OPTS="/Environment="JENKINS_OPTS=--argumentsRealm.passwd.admin=${JenkinsAdminPassword} --argumentsRealm.roles.admin=admin"/g' /usr/lib/systemd/system/jenkins.service
             if [ ! -f /var/lib/jenkins/config.xml ]; then
               echo '<?xml version="1.0" encoding="UTF-8"?><hudson><version>1.0</version><useSecurity>true</useSecurity><authorizationStrategy class="hudson.security.FullControlOnceLoggedInAuthorizationStrategy"/><securityRealm class="hudson.security.LegacySecurityRealm"/></hudson>' > /var/lib/jenkins/config.xml
               chown jenkins:jenkins /var/lib/jenkins/config.xml
             fi
-
+            
             # Starting Jenkins
             systemctl enable jenkins.service
             systemctl start jenkins.service
