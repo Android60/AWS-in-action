@@ -27,7 +27,6 @@ source "amazon-ebs" "etherpad" {
   ssh_interface        = "session_manager"
   communicator         = "ssh"
   iam_instance_profile = "ec2-ssm-core"
-  ami_groups = ["all"]
   ami_regions = ["us-east-1"]
 }
 
