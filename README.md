@@ -16,6 +16,6 @@
 - [x] Chapter 13
 - [x] Chapter 14
 - [x] Chapter 15
-- [ ] Chapter 16
+- [x] Chapter 16
 - [ ] Chapter 17
 - [ ] Chapter 18
