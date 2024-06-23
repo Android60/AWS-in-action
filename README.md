@@ -18,4 +18,4 @@
 - [x] Chapter 15
 - [x] Chapter 16
 - [x] Chapter 17
-- [ ] Chapter 18
+- [x] Chapter 18
