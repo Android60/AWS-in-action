@@ -1,5 +1,5 @@
 # AWS-in-action
-# Amazon Web Services in Action, 3rd edition - Andreas Wittig, Michael Wittig, 2022
+# Amazon Web Services in Action, 3rd edition - Andreas Wittig, Michael Wittig, 2022 (completed)
 ## Completion progress:
 - [x] Chapter 1
 - [x] Chapter 2
